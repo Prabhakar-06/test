@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bundle Selector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      padding: 15px;
+      background-color: #2e8b57;
+      color: white;
+      border-radius: 0 0 0 10px;
+      font-size: 16px;
+      z-index: 1000;
+    }
+    .bundle-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 80px;
+    }
+    .bundle-box {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      background-color: white;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .bundle-box.active {
+      border-color: #2e8b57;
+      background-color: #e6fff0;
+    }
+    .details {
+      display: none;
+      margin-top: 10px;
+    }
+    .bundle-box.active .details {
+      display: block;
+    }
+    .label {
+      font-weight: bold;
+      color: #2e8b57;
+    }
+    .input-group {
+      margin-bottom: 10px;
+    }
+    select {
+      padding: 5px;
+      margin-left: 10px;
+    }
+    .shipping {
+      font-size: 14px;
+      color: #555;
+      margin-top: 10px;
+    }
+    .add-to-cart {
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .add-to-cart:hover {
+      background-color: #246b45;
+    }
+    @media screen and (max-width: 600px) {
+      .bundle-container {
+        max-width: 90%;
+      }
+      .top-bar {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    Cart: <span id="cart-count">0</span> item(s) | Total: DKK <span id="cart-total">0.00</span>
+  </div>
+
+  <div class="bundle-container">
+    <div class="bundle-box" onclick="toggleBox(this)">
+      <div class="label">1 Pair - 50% OFF</div>
+      <div class="price">195.00</div>
+      <div class="details">
+        <div class="input-group">
+          Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="bundle-box" onclick="toggleBox(this)">
+      <div class="label">2 Pair - 40% OFF</div>
+      <div class="price">345.00</div>
+      <div class="details">
+        <div class="input-group">
+          Pair 1 - Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+        <div class="input-group">
+          Pair 2 - Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="bundle-box" onclick="toggleBox(this)">
+      <div class="label">3 Pair - 60% OFF</div>
+      <div class="price">528.00</div>
+      <div class="details">
+        <div class="input-group">
+          Pair 1 - Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+        <div class="input-group">
+          Pair 2 - Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+        <div class="input-group">
+          Pair 3 - Size: <select><option>S</option><option>M</option><option>L</option></select>
+          Colour: <select><option>Black</option><option>White</option><option>Grey</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="shipping">Free 2-Day Shipping</div>
+    <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+  </div>
+
+  <script>
+    let cartCount = 0;
+    let cartTotal = 0;
+
+    function toggleBox(element) {
+      document.querySelectorAll('.bundle-box').forEach(box => box.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function addToCart() {
+      const activeBox = document.querySelector('.bundle-box.active');
+      if (!activeBox) {
+        alert('Please select a bundle before adding to cart.');
+        return;
+      }
+      const price = parseFloat(activeBox.querySelector('.price').innerText);
+      cartCount += 1;
+      cartTotal += price;
+
+      document.getElementById('cart-count').innerText = cartCount;
+      document.getElementById('cart-total').innerText = cartTotal.toFixed(2);
+
+      alert(`Added to cart. Total items: ${cartCount}, Total price: DKK ${cartTotal.toFixed(2)}`);
+    }
+  </script>
+</body>
+</html>
